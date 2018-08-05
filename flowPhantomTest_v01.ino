@@ -1,10 +1,14 @@
 
+
 /*************************************************************************************
 
 
 
 **************************************************************************************/
+#include <AccelStepper/AccelStepper.h>
+#include <AccelStepper/MultiStepper.h>
 
+#define software_version		1.0
 
 // EasyDriver Pin Configuration (digital pins)
 #define drv_step	A1
@@ -13,151 +17,110 @@
 #define drv_ms2		A4
 #define drv_enable	A5
 
+AccelStepper stepper(AccelStepper::DRIVER, drv_step, drv_dir); 
 
-//Declare variables for functions
-char user_input;
-int x;
-int y;
-int state;
+// Define Microstepping
+//MS1	MS2	Microstep Resolution
+//L		L	Full Step (2 Phase)
+//H		L	Half Step
+//L		H	Quarter Step
+//H		H	Eigth Step
+#define drv_ms1_set		HIGH
+#define drv_ms2_set		HIGH
 
+#define stepper_default_speed 1000
+#define stepper_default_acc   5000
 
-void setup(){
-	pinMode(drv_step,	OUTPUT);
-	pinMode(drv_dir,	OUTPUT);
-	pinMode(drv_ms1,	OUTPUT);
-	pinMode(drv_ms2,	OUTPUT);
-	pinMode(drv_enable, OUTPUT);
-	resetEDPins(); //Set step, direction, microstep and enable pins to default states
-	Serial.begin(115200); //Open Serial connection for debugging
-	Serial.println("Begin motor control");
-	Serial.println();
-	//Print function list for user selection
-	Serial.println("Enter number for control option:");
-	Serial.println("1. Turn at default microstep mode.");
-	Serial.println("2. Reverse direction at default microstep mode.");
-	Serial.println("3. Turn at 1/8th microstep mode.");
-	Serial.println("4. Step forward and reverse directions.");
-	Serial.println();
-	
+// Threaded rod is probably 20tpi = 7.874015 thread/cm
+// motor: 1.8deg/step
+// configuration: Eighth of a step
+// 1 step = 1.8/8 = 0.225deg
+// 1600 steps per rev
+// 1600 * 7.874015 = 12,598.425 steps per cm
+#define ROD_THREADING	7.874015
+#define DEG_PER_STEP	0.225
+#define STEPS_PER_CM	((360/DEG_PER_STEP) * ROD_THREADING)
+#define CM_PER_CC		1 // ???is this right???
+#define CC_PER_STEP		( 1 / (STEPS_PER_CM * CM_PER_CC) )
 
-}
- 
-void loop(){
-	while(Serial.available()){
-		user_input = Serial.read(); //Read user input and trigger appropriate function
-		digitalWrite(drv_enable, LOW); //Pull enable pin low to allow motor control
-		if (user_input =='1')
-		{
-			StepForwardDefault();
-		}
-		else if(user_input =='2')
-		{
-			ReverseStepDefault();
-		}
-		else if(user_input =='3')
-		{
-			SmallStepMode();
-		}
-		else if(user_input =='4')
-		{
-			ForwardBackwardStep();
-		}
-		else
-		{
-			Serial.println("Invalid option entered.");
-		}
-		resetEDPins();
-	}
-	 
+void enable_stepper() {
+	digitalWrite(drv_enable, LOW);
 }
 
-
-
-//Reset Easy Driver pins to default states
-void resetEDPins()
-{
-	digitalWrite(drv_step, LOW);
-	digitalWrite(drv_dir, LOW);
-	digitalWrite(drv_ms1, LOW);
-	digitalWrite(drv_ms2, LOW);
+void disable_stepper() {
 	digitalWrite(drv_enable, HIGH);
 }
 
-//Default microstep mode function
-void StepForwardDefault()
-{
-	Serial.println("Moving forward at default step mode.");
-	digitalWrite(drv_dir, LOW); //Pull direction pin low to move "forward"
-	for(x= 1; x<1000; x++)  //Loop the forward stepping enough times for motion to be visible
-	{
-		digitalWrite(drv_step,HIGH); //Trigger one step forward
-		delay(1);
-		digitalWrite(drv_step,LOW); //Pull step pin low so it can be triggered again
-		delay(1);
-	}
-	Serial.println("Enter new option");
-	Serial.println();
+void inject_cc(AccelStepper stepper, float vol_cc, long speed = stepper_default_speed) {
+	stepper.setMaxSpeed(speed);
+	
+	// zero out current position
+	stepper.setCurrentPosition(0);
+	
+	// Output action to Serial Monitor
+	Serial.print(" - Injecting (mL): ");
+	Serial.println(vol_cc);
+	
+	// move to new position represent specified volume
+	float ccPerStep = CC_PER_STEP;
+	enable_stepper();
+	stepper.runToNewPosition(round(vol_cc / ccPerStep));
+	
+	disable_stepper();
 }
 
-//Reverse default microstep mode function
-void ReverseStepDefault()
-{
-	Serial.println("Moving in reverse at default step mode.");
-	digitalWrite(drv_dir, HIGH); //Pull direction pin high to move in "reverse"
-	for(x= 1; x<1000; x++)  //Loop the stepping enough times for motion to be visible
-	{
-		digitalWrite(drv_step,HIGH); //Trigger one step
-		delay(1);
-		digitalWrite(drv_step,LOW); //Pull step pin low so it can be triggered again
-		delay(1);
-	}
-	Serial.println("Enter new option");
-	Serial.println();
+void  retract_cc(AccelStepper stepper, float vol_cc, long speed = stepper_default_speed) {
+	stepper.setMaxSpeed(speed);
+	
+	// zero out current position
+	stepper.setCurrentPosition(0);
+	
+	// Output action to Serial Monitor
+	Serial.print(" - Retracting (mL): ");
+	Serial.println(vol_cc);
+	
+	// move to new position represent specified volume
+	float ccPerStep = CC_PER_STEP;
+	enable_stepper();
+	stepper.runToNewPosition( -round(vol_cc / ccPerStep));
+	
+	disable_stepper();
 }
 
-// 1/8th microstep foward mode function
-void SmallStepMode()
-{
-	Serial.println("Stepping at 1/8th microstep mode.");
-	digitalWrite(drv_dir, LOW); //Pull direction pin low to move "forward"
-	digitalWrite(drv_ms1, HIGH); //Pull drv_ms1, and drv_ms2 high to set logic to 1/8th microstep resolution
-	digitalWrite(drv_ms2, HIGH);
-	for(x= 1; x<1000; x++)  //Loop the forward stepping enough times for motion to be visible
-	{
-		digitalWrite(drv_step,HIGH); //Trigger one step forward
-		delay(1);
-		digitalWrite(drv_step,LOW); //Pull step pin low so it can be triggered again
-		delay(1);
-	}
-	Serial.println("Enter new option");
-	Serial.println();
-}
+void setup(){
+	//pinMode(drv_step,	OUTPUT);
+	//pinMode(drv_dir,	OUTPUT);
+	pinMode(drv_ms1,	OUTPUT);
+	pinMode(drv_ms2,	OUTPUT);
+	pinMode(drv_enable, OUTPUT);
+	
+	
+	digitalWrite(drv_ms1, drv_ms1_set);
+	digitalWrite(drv_ms2, drv_ms2_set);
+	
+	// Disable motor by default
+	digitalWrite(drv_enable, HIGH);
+	
+	stepper.setMaxSpeed(stepper_default_speed);
+	stepper.setAcceleration(stepper_default_acc);
 
-//Forward/reverse stepping function
-void ForwardBackwardStep()
-{
-	Serial.println("Alternate between stepping forward and reverse.");
-	for(x= 1; x<5; x++)  //Loop the forward stepping enough times for motion to be visible
-	{
-		//Read direction pin state and change it
-		state=digitalRead(drv_dir);
-		if(state == HIGH)
-		{
-			digitalWrite(drv_dir, LOW);
-		}
-		else if(state ==LOW)
-		{
-			digitalWrite(drv_dir,HIGH);
-		}
-		
-		for(y=1; y<1000; y++)
-		{
-			digitalWrite(drv_step,HIGH); //Trigger one step
-			delay(1);
-			digitalWrite(drv_step,LOW); //Pull step pin low so it can be triggered again
-			delay(1);
-		}
-	}
-	Serial.println("Enter new option:");
+	Serial.begin(115200); //Open Serial connection for debugging
+	Serial.print("MR Flow Phantom v");
+	Serial.println(software_version);
 	Serial.println();
+	
+}
+ 
+void loop(){
+	// Threaded rod is probably 20tpi = 7.874015 thread/cm
+	// motor: 1.8deg/step
+	// configuration: Eighth of a step
+	// 1 step = 1.8/8 = 0.225deg
+	// 1600 steps per rev
+	// 1600 * 7.874 = 12,598.4
+	inject_cc(stepper, 0.1);
+	delay(200);
+	retract_cc(stepper, 0.1);
+	//stepper.runSpeed();
+	delay(1000);
 }

@@ -74,8 +74,8 @@
       <Value>C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src</Value>
+      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility</Value>
+      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper</Value>
       <Value>../../flowPhantomTest_v01</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino</Value>
@@ -109,8 +109,8 @@
       <Value>C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src</Value>
+      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility</Value>
+      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper</Value>
       <Value>../../flowPhantomTest_v01</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino</Value>
@@ -353,8 +353,8 @@ vmresolved.tools.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\t
       <Value>C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src</Value>
+      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility</Value>
+      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper</Value>
       <Value>../../flowPhantomTest_v01</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino</Value>
@@ -388,8 +388,8 @@ vmresolved.tools.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\t
       <Value>C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src</Value>
+      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility</Value>
+      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper</Value>
       <Value>../../flowPhantomTest_v01</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard</Value>
       <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino</Value>

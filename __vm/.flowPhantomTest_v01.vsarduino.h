@@ -20,13 +20,10 @@
 #define ARDUINO_ARCH_AVR
 extern "C" void __cxa_pure_virtual() {;}
 
+void enable_stepper();
+void disable_stepper();
 //
 //
-void resetEDPins();
-void StepForwardDefault();
-void ReverseStepDefault();
-void SmallStepMode();
-void ForwardBackwardStep();
 
 #include "C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.21\variants\standard\pins_arduino.h" 
 #include "C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.21\cores\arduino\arduino.h"
