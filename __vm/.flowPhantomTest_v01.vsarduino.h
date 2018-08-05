@@ -20,6 +20,7 @@
 #define ARDUINO_ARCH_AVR
 extern "C" void __cxa_pure_virtual() {;}
 
+int read_LCD_buttons();
 void enable_stepper();
 void disable_stepper();
 //
