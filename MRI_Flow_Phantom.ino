@@ -9,6 +9,12 @@ http://www.airspayce.com/mikem/arduino/AccelStepper/index.html
 http://www.schmalzhaus.com/EasyDriver/Examples/EasyDriverExamples.html
 
 https://eeenthusiast.com/arduino-lcd-tutorial-display-menu-system-scrolling-menu-changeable-variables-projects/
+
+TODO: 
+- Change to push on push off button control
+- add volume limits to prevent disaster
+- add menu system to select volume and plateau duration
+- 
 **************************************************************************************/
 #define software_version		1.0
 
