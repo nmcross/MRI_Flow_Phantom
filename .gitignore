@@ -1,5 +1,6 @@
 Debug/
-__vm
-_vm
-__vm
-Debug
+__vm/
+.vs/
+*.componentinfo.xml
+*.atsln
+*_6_2.cppproj
