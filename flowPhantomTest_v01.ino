@@ -7,12 +7,14 @@ https://www.dfrobot.com/wiki/index.php/LCD_KeyPad_Shield_For_Arduino_SKU:_DFR000
 https://learn.sparkfun.com/tutorials/easy-driver-hook-up-guide?_ga=2.110778565.153953877.1533438339-555965987.1530884463
 http://www.airspayce.com/mikem/arduino/AccelStepper/index.html
 http://www.schmalzhaus.com/EasyDriver/Examples/EasyDriverExamples.html
+
+https://eeenthusiast.com/arduino-lcd-tutorial-display-menu-system-scrolling-menu-changeable-variables-projects/
 **************************************************************************************/
 #define software_version		1.0
 
 
 #include <AccelStepper/AccelStepper.h>
-#include <AccelStepper/MultiStepper.h>
+//#include <AccelStepper/MultiStepper.h>
 #include <LiquidCrystal.h>
 
 
