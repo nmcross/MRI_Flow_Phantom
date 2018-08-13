@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<RootMenu xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Config IdPrefix="mnuCmd" 
+          VarPrefix="flowPhantomMenu" 
+          UseNumbering="true" 
+          IncludeNumberHierarchy="true"
+          MaxNameLen="15" 
+          MenuBackFirstItem="false" 
+          BackText="Back" 
+          ExitText="Exit" 
+          AvrProgMem="true"/>
+  <MenuItems>
+
+    <Item Id="prg" Name="Programs">
+      <MenuItems>
+        <Item Id="prg_oscillating" Name="Oscillating">
+          <MenuItems>
+            <Item Id="prg_oscillating_vol" Name="Volume(mL)"/>
+            <Item Id="prg_oscillating_dur" Name="Phase Dur(min)"/>
+            <Item Id="prg_oscillating_start" Name="StartOsc!"/>
+          </MenuItems>
+        </Item>
+
+        <Item Id="prg_one_Push" Name="One Push">
+          <MenuItems>
+            <Item Id="prg_push_vol" Name="Volume(mL)"/>
+            <Item Id="prg_push_dur" Name="Time(min)"/>
+            <Item Id="prg_push_start" Name="StartPush!"/>
+          </MenuItems>
+        </Item>
+        
+        <Item Id="prg_one_Pull" Name="One Pull">
+          <MenuItems>
+            <Item Id="prg_pull_vol" Name="Volume(mL)"/>
+            <Item Id="prg_pull_dur" Name="Time(min)"/>
+            <Item Id="prg_pull_start" Name="StartPull!"/>
+          </MenuItems>
+        </Item>
+      </MenuItems>
+    </Item>
+
+    <Item Id="settings" Name="Settings">
+      <MenuItems>
+        <Item Id="settings_idk" Name="not sure what should go here..."/>
+        <Item Id="settings_resetToDefaults" Name="Reset"/>
+      </MenuItems>
+    </Item>
+
+  </MenuItems>
+</RootMenu>
