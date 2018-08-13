@@ -42,36 +42,6 @@ TODO:
 	// ------------------------------------- //
 	// ----- DF Robot LCD Keypad Setup ----- //
 		LiquidCrystal lcd(8, 9, 4, 5, 6, 7);           // select the pins used on the LCD panel
-	
-		//// define some values used by the panel and buttons
-		//int lcd_key     = 0;
-		//int adc_key_in  = 0;
-		//
-		//#define btnRIGHT  0
-		//#define btnUP     1
-		//#define btnDOWN   2
-		//#define btnLEFT   3
-		//#define btnSELECT 4
-		//#define btnNONE   5
-		//
-		//int read_LCD_buttons(){               // read the buttons
-			//adc_key_in = analogRead(0);       // read the value from the sensor 
-	//
-			//// my buttons when read are centered at these valies: 0, 144, 329, 504, 741
-			//// we add approx 50 to those values and check to see if we are close
-			//// We make this the 1st option for speed reasons since it will be the most likely result
-	//
-			//if (adc_key_in > 1000) return btnNONE; 
-	//
-			//// For V1.1 us this threshold
-			//if (adc_key_in < 50)   return btnRIGHT;  
-			//if (adc_key_in < 250)  return btnUP; 
-			//if (adc_key_in < 450)  return btnDOWN; 
-			//if (adc_key_in < 650)  return btnLEFT; 
-			//if (adc_key_in < 850)  return btnSELECT;  
-	//
-			//return btnNONE;                // when all others fail, return this.
-		//}
 	// ------------------------------------- //
 
 
@@ -123,17 +93,20 @@ TODO:
 		#define stepper_default_speed 1000
 		#define stepper_default_acc   5000
 
+
 		// Threaded rod is probably 20tpi = 7.874015 thread/cm
 		// motor: 1.8deg/step
 		// configuration: Eighth of a step
 		// 1 step = 1.8/8 = 0.225deg
 		// 1600 steps per rev
 		// 1600 * 7.874015 = 12,598.425 steps per cm
-		#define ROD_THREADING	7.874015
-		#define DEG_PER_STEP	0.225
-		#define STEPS_PER_CM	((360/DEG_PER_STEP) * ROD_THREADING)
-		#define CM_PER_CC		1 // ???is this right???
-		#define CC_PER_STEP		( 1 / (STEPS_PER_CM * CM_PER_CC) )
+		#define CALC_ROD_THREADING		7.874015			// threads/cm
+		#define CALC_DEG_PER_STEP		0.225				// deg/step
+		#define CALC_STEPS_PER_CM		( (360.0/CALC_DEG_PER_STEP) * CALC_ROD_THREADING )
+		#define CALC_CM_PER_CC			( 9.0 / 50 )			// 90mm/50cc
+		#define CALC_CC_PER_STEP		( 1.0 / (CALC_STEPS_PER_CM * CALC_CM_PER_CC) )
+				
+		#define SYRINGE_MAX_VOL_CC		8.0 / CALC_CM_PER_CC	// cc, actual total movable length is 107mm
 	// -------------------------------------------- //
 
 // ============================================================================= //
@@ -216,6 +189,9 @@ TODO:
 			Timer1.initialize();
 			Timer1.attachInterrupt(lcdBacklightISR, 500);
 			setBacklightBrightness(1);
+			
+			lcd.setCursor(0,1);             // set the LCD cursor position
+			lcd.print("MR Flow Phantom");
 		
 		// ------------------------------ //
 	
@@ -230,6 +206,7 @@ TODO:
 // ===== MAIN LOOP ============================================================= //
 
 	float vol = 0.3; // (mL)
+	
 	void loop(){
 		
 		btn = getButton();
@@ -237,52 +214,55 @@ TODO:
 		switch (appMode)
 		{
 			case APP_NORMAL_MODE :
-			if (btn == BUTTON_UP_LONG_PRESSED)
-			{
-				appMode = APP_MENU_MODE;
-				refreshMenuDisplay(REFRESH_DESCEND);
-			}
-			break;
-			case APP_MENU_MODE :
-			{
-				byte menuMode = Menu1.handleNavigation(getNavAction, refreshMenuDisplay);
-
-				if (menuMode == MENU_EXIT)
+				if (btn == BUTTON_UP_LONG_PRESSED)
 				{
-					lcd.clear();
-					lcd.print("Hold UP for menu");
-					appMode = APP_NORMAL_MODE;
+					appMode = APP_MENU_MODE;
+					refreshMenuDisplay(REFRESH_DESCEND);
 				}
-				else if (menuMode == MENU_INVOKE_ITEM)
+				break;
+			case APP_MENU_MODE :
 				{
-					appMode = APP_PROCESS_MENU_CMD;
+					byte menuMode = Menu1.handleNavigation(getNavAction, refreshMenuDisplay);
 
-					// Indicate selected item.
-					if (Menu1.getCurrentItemCmdId())
+					if (menuMode == MENU_EXIT)
 					{
+						lcd.clear();
+						lcd.setCursor(0,0);
+						lcd.print("MR Flow Phantom");
+						lcd.setCursor(0,1);
+						lcd.print("Hold UP for menu");
+						appMode = APP_NORMAL_MODE;
+					}
+					else if (menuMode == MENU_INVOKE_ITEM)
+					{
+						appMode = APP_PROCESS_MENU_CMD;
+
+						// Indicate selected item.
+						if (Menu1.getCurrentItemCmdId())
+						{
+							lcd.setCursor(0, 1);
+							strbuf[0] = 0b01111110; // forward arrow representing input prompt.
+							strbuf[1] = 0;
+							lcd.print(strbuf);
+						}
+					}
+					break;
+				}
+			case APP_PROCESS_MENU_CMD :
+				{
+					byte processingComplete = processMenuCommand(Menu1.getCurrentItemCmdId());
+
+					if (processingComplete)
+					{
+						appMode = APP_MENU_MODE;
+						// clear forward arrow
 						lcd.setCursor(0, 1);
-						strbuf[0] = 0b01111110; // forward arrow representing input prompt.
+						strbuf[0] = ' '; // clear forward arrow
 						strbuf[1] = 0;
 						lcd.print(strbuf);
 					}
+					break;
 				}
-				break;
-			}
-			case APP_PROCESS_MENU_CMD :
-			{
-				byte processingComplete = processMenuCommand(Menu1.getCurrentItemCmdId());
-
-				if (processingComplete)
-				{
-					appMode = APP_MENU_MODE;
-					// clear forward arrow
-					lcd.setCursor(0, 1);
-					strbuf[0] = ' '; // clear forward arrow
-					strbuf[1] = 0;
-					lcd.print(strbuf);
-				}
-				break;
-			}
 		}
 
 
@@ -306,49 +286,74 @@ TODO:
 		void disable_stepper() {
 			digitalWrite(drv_enable, HIGH);
 		}
+		
+		bool isVolTooLarge (float vol_cc) {
+			if (vol_cc > SYRINGE_MAX_VOL_CC) {
+				Serial.print(F("!!!ERR!!! - Injectable Volume is too Large ("));
+				Serial.print(vol_cc);
+				Serial.print(">");
+				Serial.print(SYRINGE_MAX_VOL_CC);
+				Serial.println(")");
+				return true;
+			} else {
+				return false;
+			}
+		}
 
 		void inject_cc(AccelStepper stepper, float vol_cc, long speed = stepper_default_speed) {
-			stepper.setMaxSpeed(speed);
+			if (!isVolTooLarge(vol_cc)) {
+				stepper.setMaxSpeed(speed);
 	
-			// zero out current position
-			stepper.setCurrentPosition(0);
+				// zero out current position
+				stepper.setCurrentPosition(0);
 	
-			// Output action to Serial Monitor
-			Serial.print(" - Injecting (mL): ");
-			Serial.println(vol_cc);
+				// Output action to Serial Monitor
+				Serial.print(F(" - Injecting (mL): "));
+				Serial.println(vol_cc);
 	
-			// move to new position represent specified volume
-			float ccPerStep = CC_PER_STEP;
-			enable_stepper();
-			stepper.runToNewPosition(round(vol_cc / ccPerStep));
+				// move to new position represent specified volume
+				float ccPerStep = CALC_CC_PER_STEP;
+				enable_stepper();
+				stepper.runToNewPosition(round(vol_cc / ccPerStep));
 	
-			disable_stepper();
+				disable_stepper();
+			}
 		}
 
-		void  retract_cc(AccelStepper stepper, float vol_cc, long speed = stepper_default_speed) {
-			stepper.setMaxSpeed(speed);
+		void retract_cc(AccelStepper stepper, float vol_cc, long speed = stepper_default_speed) {
+			if (!isVolTooLarge(vol_cc)) {
+				stepper.setMaxSpeed(speed);
 	
-			// zero out current position
-			stepper.setCurrentPosition(0);
+				// zero out current position
+				stepper.setCurrentPosition(0);
 	
-			// Output action to Serial Monitor
-			Serial.print(" - Retracting (mL): ");
-			Serial.println(vol_cc);
+				// Output action to Serial Monitor
+				Serial.print(F(" - Retracting (mL): "));
+				Serial.println(vol_cc);
 	
-			// move to new position represent specified volume
-			float ccPerStep = CC_PER_STEP;
-			enable_stepper();
-			stepper.runToNewPosition( -round(vol_cc / ccPerStep));
+				// move to new position represent specified volume
+				float ccPerStep = CALC_CC_PER_STEP;
+				enable_stepper();
+				stepper.runToNewPosition( -round(vol_cc / ccPerStep));
 	
-			disable_stepper();
+				disable_stepper();
+			}
 		}
+		
+		
 	// ----------------------------------- //
 	// ----------------------------------- //
+	
 	
 
 	// ---------------------------------- //
 	// ----- Menu Manager Functions ----- //
 	// ---------------------------------- //
+		//----------------------------------------------------------------------//
+			void outputMessageAction(String messageText) {
+				Serial.print("> Action: ");
+				Serial.println(messageText);
+			}
 
 		//----------------------------------------------------------------------//
 		// Addition or removal of menu items in MenuData.h will require this method
@@ -365,8 +370,39 @@ TODO:
 			  switch (cmdId)
 			  {
 				// TODO Process menu commands here:
-				  default:
-				break;
+				case mnuCmdprg_oscillating_vol :
+					outputMessageAction(F("Change Oscillating Prg Vol"));
+					break;;
+				case mnuCmdprg_oscillating_dur :
+					outputMessageAction(F("Change Oscillating Prg Duration"));
+					break;
+				case mnuCmdprg_oscillating_start :
+					outputMessageAction(F(">>> Start Oscillating Prg!"));
+					break;
+				case mnuCmdprg_push_vol :
+					outputMessageAction(F("Change Push Prg Vol"));
+					break;
+				case mnuCmdprg_push_dur :
+					outputMessageAction(F("Change Push Prg Duration"));
+					break;
+				case mnuCmdprg_push_start :
+					outputMessageAction(F(">>> Start Push Prg"));
+					break;
+				case mnuCmdprg_pull_vol :
+					outputMessageAction(F("Change Pull Prg Vol"));
+					break;
+				case mnuCmdprg_pull_dur :
+					outputMessageAction(F("Change Pull Prg Duration"));
+					break;
+				case mnuCmdprg_pull_start :
+					outputMessageAction(F(">>> Start Pull Prg"));
+					break;
+				case mnuCmdsettings_idk :
+					break;
+				case mnuCmdsettings_resetToDefaults :
+					break;
+				default:
+					break;
 			  }
 
 			  return complete;
