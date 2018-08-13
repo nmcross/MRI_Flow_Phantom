@@ -49,7 +49,7 @@
 #define BUTTON_SELECT_SHORT_RELEASE   (5 |  BUTTON_SHORT_RELEASE_IND)
 #define BUTTON_SELECT_LONG_PRESSED    (5 |  BUTTON_LONG_PRESSED_IND)
 #define BUTTON_SELECT_LONG_RELEASE    (5 |  BUTTON_LONG_RELEASE_IND)
-#define BUTTON_SELECT_ANALOG_VALUE    800
+#define BUTTON_SELECT_ANALOG_VALUE    850 //800  // the default value of 800 from this lib didn't work with DFRobot display
 
 extern void queueButton (byte button);
 extern byte getButton ();
