@@ -67,20 +67,18 @@
   </avrgcc.compiler.symbols.DefSymbols>
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/lib/gcc/avr/4.8.1/include</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2//avr/include/avr/</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/avr/include/</Value>
+      <Value>{runtime.tools.avr-gcc.path}/lib/gcc/avr/4.8.1/include</Value>
+      <Value>{runtime.tools.avr-gcc.path}//avr/include/avr/</Value>
+      <Value>{runtime.tools.avr-gcc.path}/avr/include/</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper</Value>
       <Value>../../MRI_Flow_Phantom</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
     </ListValues>
   </avrgcc.compiler.directories.IncludePaths>
   <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
@@ -104,20 +102,18 @@
   </avrgcccpp.compiler.symbols.DefSymbols>
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/lib/gcc/avr/4.8.1/include</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2//avr/include/avr/</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/avr/include/</Value>
+      <Value>{runtime.tools.avr-gcc.path}/lib/gcc/avr/4.8.1/include</Value>
+      <Value>{runtime.tools.avr-gcc.path}//avr/include/avr/</Value>
+      <Value>{runtime.tools.avr-gcc.path}/avr/include/</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper</Value>
       <Value>../../MRI_Flow_Phantom</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
@@ -133,10 +129,10 @@
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;../../flowPhantomTest_v01;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers;C:/Users/ncross/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr//avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src;C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/utility;//psf/Dropbox/NTrack/Design_Files/NTrack_V1I2_Firmware/libraries;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/;c:/program files (x86)/arduino/hardware/tools/avr/avr/;;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/avr/include/;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2//avr/include/avr/;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/src;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/src/utility;C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src;C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility;../../MRI_Flow_Phantom;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;../../flowPhantomTest_v01;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers;C:/Users/ncross/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr//avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src;C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/utility;//psf/Dropbox/NTrack/Design_Files/NTrack_V1I2_Firmware/libraries;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/;c:/program files (x86)/arduino/hardware/tools/avr/avr/;;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/avr/include/;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2//avr/include/avr/;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/src;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/src/utility;C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src;C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility;../../MRI_Flow_Phantom;Z:/Code_Repository/NTrack Firmware Dev v3.1/NTrack Firmware Dev v3.1/libraries;{runtime.tools.avr-gcc.path}/avr/include/;{runtime.tools.avr-gcc.path}//avr/include/avr/;{runtime.tools.avr-gcc.path}/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/yun;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
-        <arduino.upload.port>COM10</arduino.upload.port>
+        <arduino.upload.port>COM8</arduino.upload.port>
         <arduino.board.name>uno</arduino.board.name>
         <arduino.board.desc>Arduino/Genuino Uno</arduino.board.desc>
         <arduino.board.property_bag>name=Arduino/Genuino Uno
@@ -156,7 +152,7 @@ upload.speed=115200
 bootloader.tool=avrdude
 bootloader.low_fuses=0xFF
 bootloader.high_fuses=0xDE
-bootloader.extended_fuses=0xFD
+bootloader.extended_fuses=0x05
 bootloader.unlock_bits=0x3F
 bootloader.lock_bits=0x0F
 bootloader.file=optiboot/optiboot_atmega328.hex
@@ -166,11 +162,11 @@ build.board=AVR_UNO
 build.core=arduino
 build.variant=standard
 runtime.ide.path=C:\Program Files (x86)\Arduino
-build.system.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.21\system
+build.system.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr\system
 runtime.ide.version=1613
 target_package=arduino
 target_platform=avr
-runtime.hardware.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr
+runtime.hardware.path=C:\Program Files (x86)\Arduino\hardware\arduino
 originalid=uno
 intellisense.tools.path={runtime.tools.avr-gcc.path}/
 intellisense.include.paths={intellisense.tools.path}avr/include/;{intellisense.tools.path}/avr/include/avr/;{intellisense.tools.path}lib\gcc\avr\4.8.1\include
@@ -185,7 +181,7 @@ tools.atprogram.erase.params.quiet=-q
 tools.atprogram.bootloader.params.verbose=-v
 tools.atprogram.bootloader.params.quiet=-q
 tools.atprogram.bootloader.pattern="{cmd.path}" -d {build.mcu} {bootloader.verbose}  program -c -f "{runtime.ide.path}/hardware/arduino/avr/bootloaders/{bootloader.file}"
-version=1.6.21
+version=1.6.15
 compiler.warning_flags=-w
 compiler.warning_flags.none=-w
 compiler.warning_flags.default=
@@ -194,9 +190,9 @@ compiler.warning_flags.all=-Wall -Wextra
 compiler.path={runtime.tools.avr-gcc.path}/bin/
 compiler.c.cmd=avr-gcc
 compiler.c.flags=-c -g -Os {compiler.warning_flags} -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects
-compiler.c.elf.flags={compiler.warning_flags} -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections
+compiler.c.elf.flags={compiler.warning_flags} -Os -flto -fuse-linker-plugin -Wl,--gc-sections
 compiler.c.elf.cmd=avr-gcc
-compiler.S.flags=-c -g -x assembler-with-cpp -flto -MMD
+compiler.S.flags=-c -g -x assembler-with-cpp -flto
 compiler.cpp.cmd=avr-g++
 compiler.cpp.flags=-c -g -Os {compiler.warning_flags} -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -flto
 compiler.ar.cmd=avr-gcc-ar
@@ -218,7 +214,7 @@ compiler.elf2hex.extra_flags=
 recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
 recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
 recipe.S.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.S.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
-archive_file_path={build.path}/{archive_file}
+archive_file_path=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno\core.a
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mmcu={build.mcu} {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}" "-L{build.path}" -lm
 recipe.objcopy.eep.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.objcopy.eep.flags} {compiler.objcopy.eep.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.eep"
@@ -236,12 +232,11 @@ recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {
 tools.avrdude.path={runtime.tools.avrdude.path}
 tools.avrdude.cmd.path={path}/bin/avrdude
 tools.avrdude.config.path={path}/etc/avrdude.conf
-tools.avrdude.network_cmd={runtime.tools.arduinoOTA.path}/bin/arduinoOTA
 tools.avrdude.upload.params.verbose=-v
 tools.avrdude.upload.params.quiet=-q -q
 tools.avrdude.upload.verify=
 tools.avrdude.upload.params.noverify=-V
-tools.avrdude.upload.pattern="{cmd.path}" "-C{config.path}" {upload.verbose} {upload.verify} -p{build.mcu} -c{upload.protocol} "-P{serial.port}" -b{upload.speed} -D "-Uflash:w:{build.path}/{build.project_name}.hex:i"
+tools.avrdude.upload.pattern="{cmd.path}" "-C{config.path}" {upload.verbose} {upload.verify} -p{build.mcu} -c{upload.protocol} -P{serial.port} -b{upload.speed} -D "-Uflash:w:{build.path}/{build.project_name}.hex:i"
 tools.avrdude.program.params.verbose=-v
 tools.avrdude.program.params.quiet=-q -q
 tools.avrdude.program.verify=
@@ -254,16 +249,9 @@ tools.avrdude.bootloader.params.verbose=-v
 tools.avrdude.bootloader.params.quiet=-q -q
 tools.avrdude.bootloader.pattern="{cmd.path}" "-C{config.path}" {bootloader.verbose} -p{build.mcu} -c{protocol} {program.extra_params} "-Uflash:w:{runtime.platform.path}/bootloaders/{bootloader.file}:i" -Ulock:w:{bootloader.lock_bits}:m
 tools.avrdude_remote.upload.pattern=/usr/bin/run-avrdude /tmp/sketch.hex {upload.verbose} -p{build.mcu}
-tools.avrdude.upload.network_pattern="{network_cmd}" -address {serial.port} -port {upload.network.port} -sketch "{build.path}/{build.project_name}.hex" -upload {upload.network.endpoint_upload} -sync {upload.network.endpoint_sync} -reset {upload.network.endpoint_reset} -sync_exp {upload.network.sync_return}
 build.usb_manufacturer="Unknown"
 build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} '-DUSB_MANUFACTURER={build.usb_manufacturer}' '-DUSB_PRODUCT={build.usb_product}'
 vm.platform.root.path=C:\Program Files (x86)\Atmel\Studio\7.0\Extensions\xwukjk44.bfp\Micro Platforms\arduino16x
-runtime.tools.arduinoOTA.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\arduinoOTA\1.1.1
-runtime.tools.arduinoOTA-1.1.1.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\arduinoOTA\1.1.1
-runtime.tools.avrdude.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9
-runtime.tools.avrdude-6.3.0-arduino9.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9
-runtime.tools.avr-gcc.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2
-runtime.tools.avr-gcc-4.9.2-atmel3.5.4-arduino2.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2
 ide.hint=For use with Arduino.cc 1.6.2+ ide
 ide.location.key=Arduino16x
 ide.location.ide.winreg=Arduino 1.6.x Application
@@ -303,15 +291,29 @@ ide.contributions.libraries.allow=true
 ide.contributions.boards.support.urls.wiki=https://github.com/arduino/Arduino/wiki/Unofficial-list-of-3rd-party-boards-support-urls
 ide.create_platforms_from_boardsTXT.teensy=build.core
 ide.appid=arduino16x
-location.sketchbook=C:\Users\ncross\Documents\Arduino
+location.sketchbook=Z:\Code_Repository\NTrack Firmware Dev v3.1\NTrack Firmware Dev v3.1
 vm.core.include=arduino.h
-vm.boardsource.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.21
-runtime.platform.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.21
+vm.boardsource.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr
+runtime.platform.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr
 vm.platformname.name=avr
 build.arch=AVR
-build.architecture=4.9.2-atmel3.5.4-arduino2
-vmresolved.compiler.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\bin\
-vmresolved.tools.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2
+vm.runtime.compiler.showwarnings=true
+serial.port.file=COM8
+serial.port=COM8
+serial.port.num=8
+build.source.path=Y:\MRI_Flow_Phantom\MRI_Flow_Phantom.ino
+extra.time.local=3374631
+includes= -I"Y:\MRI_Flow_Phantom"  -I"C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino"  -I"C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard"  -I"C:\Program Files (x86)\Arduino\libraries\LiquidCrystal\src"  -I"C:\Program Files (x86)\Arduino\libraries"  -I"C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries"  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Extensions\xwukjk44.bfp\Micro Platforms\default\debuggers"  -I"Z:\Code_Repository\NTrack Firmware Dev v3.1\NTrack Firmware Dev v3.1\libraries" 
+build.path=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno
+build.project_name=MRI_Flow_Phantom
+build.variant.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard
+build.core.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino
+archive_file=core.a
+build.path_sketch=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno
+build.path_core=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno
+build.path_libraries=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno
+object_file=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno\wiring_pulse.S.o
+source_file=C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino\wiring_pulse.S
 </arduino.board.property_bag>
         <arduino.build.mcu>atmega328p</arduino.build.mcu>
         <arduino.build.f_cpu>16000000L</arduino.build.f_cpu>
@@ -350,20 +352,18 @@ vmresolved.tools.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\t
   </avrgcc.compiler.symbols.DefSymbols>
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/lib/gcc/avr/4.8.1/include</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2//avr/include/avr/</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/avr/include/</Value>
+      <Value>{runtime.tools.avr-gcc.path}/lib/gcc/avr/4.8.1/include</Value>
+      <Value>{runtime.tools.avr-gcc.path}//avr/include/avr/</Value>
+      <Value>{runtime.tools.avr-gcc.path}/avr/include/</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper</Value>
       <Value>../../MRI_Flow_Phantom</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
     </ListValues>
   </avrgcc.compiler.directories.IncludePaths>
   <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
@@ -387,20 +387,18 @@ vmresolved.tools.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\t
   </avrgcccpp.compiler.symbols.DefSymbols>
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/lib/gcc/avr/4.8.1/include</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2//avr/include/avr/</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/avr/include/</Value>
+      <Value>{runtime.tools.avr-gcc.path}/lib/gcc/avr/4.8.1/include</Value>
+      <Value>{runtime.tools.avr-gcc.path}//avr/include/avr/</Value>
+      <Value>{runtime.tools.avr-gcc.path}/avr/include/</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries</Value>
       <Value>C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility</Value>
       <Value>C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility</Value>
-      <Value>C:/Users/ncross/Documents/Arduino/libraries/AccelStepper</Value>
       <Value>../../MRI_Flow_Phantom</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard</Value>
-      <Value>C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard</Value>
+      <Value>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
@@ -416,10 +414,10 @@ vmresolved.tools.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\t
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;../../flowPhantomTest_v01;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers;C:/Users/ncross/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr//avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src;C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/utility;//psf/Dropbox/NTrack/Design_Files/NTrack_V1I2_Firmware/libraries;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/;c:/program files (x86)/arduino/hardware/tools/avr/avr/;;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/avr/include/;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2//avr/include/avr/;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/src;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/src/utility;C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src;C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility;../../MRI_Flow_Phantom;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>C:/Program Files (x86)/Arduino/hardware/arduino/avr/cores/arduino;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/standard;../../flowPhantomTest_v01;C:/Program Files (x86)/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/arduino/avr/libraries;C:/Program Files (x86)/Atmel/Studio/7.0/Extensions/xwukjk44.bfp/Micro Platforms/default/debuggers;C:/Users/ncross/Documents/Arduino/libraries;C:/Program Files (x86)/Arduino/hardware/tools/avr/avr/include/;C:/Program Files (x86)/Arduino/hardware/tools/avr//avr/include/avr/;C:/Program Files (x86)/Arduino/hardware/tools/avr/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src;C:/Program Files (x86)/Arduino/libraries/LiquidCrystal/src/utility;//psf/Dropbox/NTrack/Design_Files/NTrack_V1I2_Firmware/libraries;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/;c:/program files (x86)/arduino/hardware/tools/avr/avr/include/avr/;c:/program files (x86)/arduino/hardware/tools/avr/avr/;;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/cores/arduino;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/variants/standard;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.21/libraries;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/avr/include/;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2//avr/include/avr/;C:/Users/ncross/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/4.9.2-atmel3.5.4-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/utility;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/src;C:/Users/ncross/Documents/Arduino/libraries/AccelStepper/src/utility;C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src;C:/Users/ncross/Documents/Arduino/libraries/LiquidCrystal/src/utility;../../MRI_Flow_Phantom;Z:/Code_Repository/NTrack Firmware Dev v3.1/NTrack Firmware Dev v3.1/libraries;{runtime.tools.avr-gcc.path}/avr/include/;{runtime.tools.avr-gcc.path}//avr/include/avr/;{runtime.tools.avr-gcc.path}/lib/gcc/avr/4.8.1/include;C:/Program Files (x86)/Arduino/hardware/arduino/avr/variants/yun;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
-        <arduino.upload.port>COM10</arduino.upload.port>
+        <arduino.upload.port>COM8</arduino.upload.port>
         <arduino.board.name>uno</arduino.board.name>
         <arduino.board.desc>Arduino/Genuino Uno</arduino.board.desc>
         <arduino.board.property_bag>name=Arduino/Genuino Uno
@@ -439,7 +437,7 @@ upload.speed=115200
 bootloader.tool=avrdude
 bootloader.low_fuses=0xFF
 bootloader.high_fuses=0xDE
-bootloader.extended_fuses=0xFD
+bootloader.extended_fuses=0x05
 bootloader.unlock_bits=0x3F
 bootloader.lock_bits=0x0F
 bootloader.file=optiboot/optiboot_atmega328.hex
@@ -449,11 +447,11 @@ build.board=AVR_UNO
 build.core=arduino
 build.variant=standard
 runtime.ide.path=C:\Program Files (x86)\Arduino
-build.system.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.21\system
+build.system.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr\system
 runtime.ide.version=1613
 target_package=arduino
 target_platform=avr
-runtime.hardware.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr
+runtime.hardware.path=C:\Program Files (x86)\Arduino\hardware\arduino
 originalid=uno
 intellisense.tools.path={runtime.tools.avr-gcc.path}/
 intellisense.include.paths={intellisense.tools.path}avr/include/;{intellisense.tools.path}/avr/include/avr/;{intellisense.tools.path}lib\gcc\avr\4.8.1\include
@@ -468,7 +466,7 @@ tools.atprogram.erase.params.quiet=-q
 tools.atprogram.bootloader.params.verbose=-v
 tools.atprogram.bootloader.params.quiet=-q
 tools.atprogram.bootloader.pattern="{cmd.path}" -d {build.mcu} {bootloader.verbose}  program -c -f "{runtime.ide.path}/hardware/arduino/avr/bootloaders/{bootloader.file}"
-version=1.6.21
+version=1.6.15
 compiler.warning_flags=-w
 compiler.warning_flags.none=-w
 compiler.warning_flags.default=
@@ -477,9 +475,9 @@ compiler.warning_flags.all=-Wall -Wextra
 compiler.path={runtime.tools.avr-gcc.path}/bin/
 compiler.c.cmd=avr-gcc
 compiler.c.flags=-c -g -Os {compiler.warning_flags} -std=gnu11 -ffunction-sections -fdata-sections -MMD -flto -fno-fat-lto-objects
-compiler.c.elf.flags={compiler.warning_flags} -Os -g -flto -fuse-linker-plugin -Wl,--gc-sections
+compiler.c.elf.flags={compiler.warning_flags} -Os -flto -fuse-linker-plugin -Wl,--gc-sections
 compiler.c.elf.cmd=avr-gcc
-compiler.S.flags=-c -g -x assembler-with-cpp -flto -MMD
+compiler.S.flags=-c -g -x assembler-with-cpp -flto
 compiler.cpp.cmd=avr-g++
 compiler.cpp.flags=-c -g -Os {compiler.warning_flags} -std=gnu++11 -fpermissive -fno-exceptions -ffunction-sections -fdata-sections -fno-threadsafe-statics -MMD -flto
 compiler.ar.cmd=avr-gcc-ar
@@ -501,7 +499,7 @@ compiler.elf2hex.extra_flags=
 recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
 recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
 recipe.S.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.S.flags} -mmcu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
-archive_file_path={build.path}/{archive_file}
+archive_file_path=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno\core.a
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
 recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mmcu={build.mcu} {compiler.c.elf.extra_flags} -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}" "-L{build.path}" -lm
 recipe.objcopy.eep.pattern="{compiler.path}{compiler.objcopy.cmd}" {compiler.objcopy.eep.flags} {compiler.objcopy.eep.extra_flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.eep"
@@ -519,12 +517,11 @@ recipe.preproc.macros="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} {
 tools.avrdude.path={runtime.tools.avrdude.path}
 tools.avrdude.cmd.path={path}/bin/avrdude
 tools.avrdude.config.path={path}/etc/avrdude.conf
-tools.avrdude.network_cmd={runtime.tools.arduinoOTA.path}/bin/arduinoOTA
 tools.avrdude.upload.params.verbose=-v
 tools.avrdude.upload.params.quiet=-q -q
 tools.avrdude.upload.verify=
 tools.avrdude.upload.params.noverify=-V
-tools.avrdude.upload.pattern="{cmd.path}" "-C{config.path}" {upload.verbose} {upload.verify} -p{build.mcu} -c{upload.protocol} "-P{serial.port}" -b{upload.speed} -D "-Uflash:w:{build.path}/{build.project_name}.hex:i"
+tools.avrdude.upload.pattern="{cmd.path}" "-C{config.path}" {upload.verbose} {upload.verify} -p{build.mcu} -c{upload.protocol} -P{serial.port} -b{upload.speed} -D "-Uflash:w:{build.path}/{build.project_name}.hex:i"
 tools.avrdude.program.params.verbose=-v
 tools.avrdude.program.params.quiet=-q -q
 tools.avrdude.program.verify=
@@ -537,16 +534,9 @@ tools.avrdude.bootloader.params.verbose=-v
 tools.avrdude.bootloader.params.quiet=-q -q
 tools.avrdude.bootloader.pattern="{cmd.path}" "-C{config.path}" {bootloader.verbose} -p{build.mcu} -c{protocol} {program.extra_params} "-Uflash:w:{runtime.platform.path}/bootloaders/{bootloader.file}:i" -Ulock:w:{bootloader.lock_bits}:m
 tools.avrdude_remote.upload.pattern=/usr/bin/run-avrdude /tmp/sketch.hex {upload.verbose} -p{build.mcu}
-tools.avrdude.upload.network_pattern="{network_cmd}" -address {serial.port} -port {upload.network.port} -sketch "{build.path}/{build.project_name}.hex" -upload {upload.network.endpoint_upload} -sync {upload.network.endpoint_sync} -reset {upload.network.endpoint_reset} -sync_exp {upload.network.sync_return}
 build.usb_manufacturer="Unknown"
 build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} '-DUSB_MANUFACTURER={build.usb_manufacturer}' '-DUSB_PRODUCT={build.usb_product}'
 vm.platform.root.path=C:\Program Files (x86)\Atmel\Studio\7.0\Extensions\xwukjk44.bfp\Micro Platforms\arduino16x
-runtime.tools.arduinoOTA.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\arduinoOTA\1.1.1
-runtime.tools.arduinoOTA-1.1.1.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\arduinoOTA\1.1.1
-runtime.tools.avrdude.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9
-runtime.tools.avrdude-6.3.0-arduino9.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino9
-runtime.tools.avr-gcc.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2
-runtime.tools.avr-gcc-4.9.2-atmel3.5.4-arduino2.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2
 ide.hint=For use with Arduino.cc 1.6.2+ ide
 ide.location.key=Arduino16x
 ide.location.ide.winreg=Arduino 1.6.x Application
@@ -586,15 +576,29 @@ ide.contributions.libraries.allow=true
 ide.contributions.boards.support.urls.wiki=https://github.com/arduino/Arduino/wiki/Unofficial-list-of-3rd-party-boards-support-urls
 ide.create_platforms_from_boardsTXT.teensy=build.core
 ide.appid=arduino16x
-location.sketchbook=C:\Users\ncross\Documents\Arduino
+location.sketchbook=Z:\Code_Repository\NTrack Firmware Dev v3.1\NTrack Firmware Dev v3.1
 vm.core.include=arduino.h
-vm.boardsource.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.21
-runtime.platform.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.21
+vm.boardsource.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr
+runtime.platform.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr
 vm.platformname.name=avr
 build.arch=AVR
-build.architecture=4.9.2-atmel3.5.4-arduino2
-vmresolved.compiler.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2\bin\
-vmresolved.tools.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\4.9.2-atmel3.5.4-arduino2
+vm.runtime.compiler.showwarnings=true
+serial.port.file=COM8
+serial.port=COM8
+serial.port.num=8
+build.source.path=Y:\MRI_Flow_Phantom\MRI_Flow_Phantom.ino
+extra.time.local=3374631
+includes= -I"Y:\MRI_Flow_Phantom"  -I"C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino"  -I"C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard"  -I"C:\Program Files (x86)\Arduino\libraries\LiquidCrystal\src"  -I"C:\Program Files (x86)\Arduino\libraries"  -I"C:\Program Files (x86)\Arduino\hardware\arduino\avr\libraries"  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Extensions\xwukjk44.bfp\Micro Platforms\default\debuggers"  -I"Z:\Code_Repository\NTrack Firmware Dev v3.1\NTrack Firmware Dev v3.1\libraries" 
+build.path=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno
+build.project_name=MRI_Flow_Phantom
+build.variant.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr\variants\standard
+build.core.path=C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino
+archive_file=core.a
+build.path_sketch=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno
+build.path_core=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno
+build.path_libraries=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno
+object_file=C:\Users\ncross\AppData\Local\V.Micro\Arduino\Builds\MRI_Flow_Phantom\uno\wiring_pulse.S.o
+source_file=C:\Program Files (x86)\Arduino\hardware\arduino\avr\cores\arduino\wiring_pulse.S
 </arduino.board.property_bag>
         <arduino.build.mcu>atmega328p</arduino.build.mcu>
         <arduino.build.f_cpu>16000000L</arduino.build.f_cpu>
@@ -620,6 +624,12 @@ vmresolved.tools.path=C:\Users\ncross\AppData\Local\arduino15\packages\arduino\t
     <Folder Include="__vm\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Config.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="LcdKeypad.cpp">
       <SubType>compile</SubType>
     </Compile>

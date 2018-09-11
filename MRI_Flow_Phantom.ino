@@ -1,3 +1,4 @@
+
 /*************************************************************************************
 MRI Flow Phantom
 (c) 2018 Nathan M. Cross
@@ -8,28 +9,33 @@ https://learn.sparkfun.com/tutorials/easy-driver-hook-up-guide?_ga=2.110778565.1
 http://www.airspayce.com/mikem/arduino/AccelStepper/index.html
 http://www.schmalzhaus.com/EasyDriver/Examples/EasyDriverExamples.html
 
-https://eeenthusiast.com/arduino-lcd-tutorial-display-menu-system-scrolling-menu-changeable-variables-projects/
-http://www.cohesivecomputing.co.uk/hackatronics/arduino-lcd-menu-library/
+	Menus:
+	https://eeenthusiast.com/arduino-lcd-tutorial-display-menu-system-scrolling-menu-changeable-variables-projects/
+	http://www.cohesivecomputing.co.uk/hackatronics/arduino-lcd-menu-library/
 
 TODO: 
+- started to add code for manipulating config which stores the settings for the device
+- need to finish code for starting and stopping functions
+- need to dev code for displaying settings on screen
 - Change to push on push off button control
-- add volume limits to prevent disaster
-- add menu system to select volume and plateau duration
 - 
 **************************************************************************************/
-#define software_version		1.1
+
 
 
 
 // ============================================================================= //
 // ===== INCLUDES ============================================================== //
 
-	#include <AccelStepper/AccelStepper.h>
+  	//#include <AccelStepper/AccelStepper.h>
+  	#include <AccelStepper.h>
+	//#include "AccelStepper.h"
 	//#include <AccelStepper/MultiStepper.h>
 	#include <LiquidCrystal.h>
 	#include "LcdKeypad.h"
 	#include "MenuData.h"
 	#include "TimerOne.h"
+	#include "Config.h"
 
 // ============================================================================= //
 
@@ -38,6 +44,14 @@ TODO:
 
 // ============================================================================= //
 // ===== CONFIGURATIONS ======================================================== //
+
+	// ---------------------------------------- //
+	// ----- System Current Configuration ----- //
+		Config currentConfig;
+		//currentConfig.load();
+	// ---------------------------------------- //
+	
+
 
 	// ------------------------------------- //
 	// ----- DF Robot LCD Keypad Setup ----- //
@@ -52,7 +66,9 @@ TODO:
 		{
 			APP_NORMAL_MODE,
 			APP_MENU_MODE,
-			APP_PROCESS_MENU_CMD
+			APP_MENU_MODE_END,
+			APP_PROCESS_MENU_CMD,
+			APP_PROGRAM_RUNNING
 		};
 
 		byte appMode = APP_NORMAL_MODE;
@@ -132,11 +148,9 @@ TODO:
 			lcd.setCursor(0,0);             // set the LCD cursor position
 			lcd.print("MR Flow Phantom");
 			lcd.setCursor(5,1);
-			lcd.print("v");
-			lcd.print(software_version);
+			lcd.print(softwareVersion);
 			delay(3000);
 			
-		
 		// ------------------------------ //
 			
 	
@@ -169,7 +183,7 @@ TODO:
 			Serial.begin(115200); //Open Serial connection for debugging
 			Serial.println("-----------------------------");
 			Serial.print("MR Flow Phantom v");
-			Serial.println(software_version);
+			Serial.println(softwareVersion);
 			Serial.println();
 			
 		// -------------------------- //
@@ -188,7 +202,7 @@ TODO:
 			// Use soft PWM for backlight, as hardware PWM must be avoided for some LCD shields.
 			Timer1.initialize();
 			Timer1.attachInterrupt(lcdBacklightISR, 500);
-			setBacklightBrightness(1);
+			setBacklightBrightness(4);
 			
 			lcd.setCursor(0,1);             // set the LCD cursor position
 			lcd.print("MR Flow Phantom");
@@ -206,6 +220,7 @@ TODO:
 // ===== MAIN LOOP ============================================================= //
 
 	float vol = 0.3; // (mL)
+	bool process_menu_cmd_justCalled = false;
 	
 	void loop(){
 		
@@ -231,11 +246,13 @@ TODO:
 						lcd.print("MR Flow Phantom");
 						lcd.setCursor(0,1);
 						lcd.print("Hold UP for menu");
-						appMode = APP_NORMAL_MODE;
+						appMode = APP_MENU_MODE_END;
+						
 					}
 					else if (menuMode == MENU_INVOKE_ITEM)
 					{
 						appMode = APP_PROCESS_MENU_CMD;
+						process_menu_cmd_justCalled = true;
 
 						// Indicate selected item.
 						if (Menu1.getCurrentItemCmdId())
@@ -255,11 +272,24 @@ TODO:
 					if (processingComplete)
 					{
 						appMode = APP_MENU_MODE;
+						process_menu_cmd_justCalled = false;
 						// clear forward arrow
 						lcd.setCursor(0, 1);
 						strbuf[0] = ' '; // clear forward arrow
 						strbuf[1] = 0;
 						lcd.print(strbuf);
+					}
+					break;
+				}
+			case APP_PROGRAM_RUNNING :
+				{
+					break;
+				}
+			case APP_MENU_MODE_END :
+				{
+					if (btn == BUTTON_UP_SHORT_RELEASE || btn == BUTTON_UP_LONG_RELEASE)
+					{
+						appMode = APP_NORMAL_MODE;
 					}
 					break;
 				}
@@ -340,7 +370,6 @@ TODO:
 			}
 		}
 		
-		
 	// ----------------------------------- //
 	// ----------------------------------- //
 	
@@ -354,6 +383,32 @@ TODO:
 				Serial.print("> Action: ");
 				Serial.println(messageText);
 			}
+			
+			void lcdPrintSetting(long measure, int unitIndex) {
+				switch (unitIndex) {
+					case 0:	//mL
+					{
+						lcd.setCursor(2,1);
+						lcd.print(F("        "));
+						lcd.setCursor(2,1);
+						lcd.print(measure);
+						lcd.setCursor(5,1);
+						lcd.print("mL");
+						break;;
+					}
+					case 1:	//sec
+					{
+						lcd.setCursor(2,1);
+						lcd.print(F("        "));
+						lcd.setCursor(2,1);
+						lcd.print(measure);
+						lcd.setCursor(7,1);
+						lcd.print("s");
+						break;;
+					}
+				}
+				
+			}
 
 		//----------------------------------------------------------------------//
 		// Addition or removal of menu items in MenuData.h will require this method
@@ -361,41 +416,201 @@ TODO:
 			byte processMenuCommand(byte cmdId)
 			{
 			  byte complete = false;  // set to true when menu command processing complete.
+			  byte configChanged = false;
 
 			  if (btn == BUTTON_SELECT_PRESSED)
 			  {
 				complete = true;
 			  }
+			  
+			  
 
 			  switch (cmdId)
 			  {
 				// TODO Process menu commands here:
 				case mnuCmdprg_oscillating_vol :
-					outputMessageAction(F("Change Oscillating Prg Vol"));
+					if (process_menu_cmd_justCalled)
+					{
+						outputMessageAction(F("Change Oscillating Prg Vol"));
+						lcdPrintSetting(currentConfig.getOscVol(), 0);
+					}
+
+					configChanged = true;
+					if (btn == BUTTON_UP_PRESSED || btn == BUTTON_UP_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepUpOscVol());
+						lcdPrintSetting(currentConfig.getOscVol(), 0);
+					}
+					else if (btn == BUTTON_DOWN_PRESSED || btn == BUTTON_DOWN_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepDnOscVol());
+						lcdPrintSetting(currentConfig.getOscVol(), 0);
+					}
+					else
+					{
+						configChanged = false;
+					}
 					break;;
+					
 				case mnuCmdprg_oscillating_dur :
-					outputMessageAction(F("Change Oscillating Prg Duration"));
+					if (process_menu_cmd_justCalled)
+					{
+						outputMessageAction(F("Change Oscillating Prg Duration"));
+						lcdPrintSetting(currentConfig.getOscDur(), 1);
+					}
+
+					configChanged = true;
+					if (btn == BUTTON_UP_PRESSED || btn == BUTTON_UP_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepUpOscDur());
+						lcdPrintSetting(currentConfig.getOscDur(), 1);
+					}
+					else if (btn == BUTTON_DOWN_PRESSED || btn == BUTTON_DOWN_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepDnOscDur());
+						lcdPrintSetting(currentConfig.getOscDur(), 1);
+					}
+					else
+					{
+						configChanged = false;
+					}
+					
 					break;
+					
 				case mnuCmdprg_oscillating_start :
-					outputMessageAction(F(">>> Start Oscillating Prg!"));
+					if (process_menu_cmd_justCalled)
+					{
+						outputMessageAction(F(">>> Start Oscillating Prg!"));
+						
+					}
+					
 					break;
+					
 				case mnuCmdprg_push_vol :
-					outputMessageAction(F("Change Push Prg Vol"));
+					if (process_menu_cmd_justCalled)
+					{
+						outputMessageAction(F("Change Push Prg Vol"));
+						lcdPrintSetting(currentConfig.getPushVol(), 0);
+					}
+
+					configChanged = true;
+					if (btn == BUTTON_UP_PRESSED || btn == BUTTON_UP_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepUpPushVol());
+						lcdPrintSetting(currentConfig.getPushVol(), 0);
+					}
+					else if (btn == BUTTON_DOWN_PRESSED || btn == BUTTON_DOWN_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepDnPushVol());
+						lcdPrintSetting(currentConfig.getPushVol(), 0);
+					}
+					else
+					{
+						configChanged = false;
+					}
+					
 					break;
+					
 				case mnuCmdprg_push_dur :
-					outputMessageAction(F("Change Push Prg Duration"));
+					if (process_menu_cmd_justCalled)
+					{
+						outputMessageAction(F("Change Push Prg Duration"));
+						lcdPrintSetting(currentConfig.getPushDur(), 1);
+					}
+
+					configChanged = true;
+					if (btn == BUTTON_UP_PRESSED || btn == BUTTON_UP_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepUpPushDur());
+						lcdPrintSetting(currentConfig.getPushDur(), 1);
+					}
+					else if (btn == BUTTON_DOWN_PRESSED || btn == BUTTON_DOWN_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepDnPushDur());
+						lcdPrintSetting(currentConfig.getPushDur(), 1);
+					}
+					else
+					{
+						configChanged = false;
+					}
+					
 					break;
+					
 				case mnuCmdprg_push_start :
-					outputMessageAction(F(">>> Start Push Prg"));
+					if (process_menu_cmd_justCalled)
+					{
+						outputMessageAction(F(">>> Start Push Prg"));
+					}
+					
 					break;
+					
 				case mnuCmdprg_pull_vol :
-					outputMessageAction(F("Change Pull Prg Vol"));
+					if (process_menu_cmd_justCalled)
+					{
+						outputMessageAction(F("Change Pull Prg Vol"));
+						lcdPrintSetting(currentConfig.getPullVol(), 0);
+					}
+
+					configChanged = true;
+					if (btn == BUTTON_UP_PRESSED || btn == BUTTON_UP_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepUpPullVol());
+						lcdPrintSetting(currentConfig.getPullVol(), 0);
+					}
+					else if (btn == BUTTON_DOWN_PRESSED || btn == BUTTON_DOWN_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepDnPullVol());
+						lcdPrintSetting(currentConfig.getPullVol(), 0);
+					}
+					else
+					{
+						configChanged = false;
+					}
 					break;
+					
 				case mnuCmdprg_pull_dur :
-					outputMessageAction(F("Change Pull Prg Duration"));
+					if (process_menu_cmd_justCalled)
+					{
+						outputMessageAction(F("Change Pull Prg Duration"));
+						lcdPrintSetting(currentConfig.getPullDur(), 1);
+					}
+
+					configChanged = true;
+					if (btn == BUTTON_UP_PRESSED || btn == BUTTON_UP_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepUpPullDur());
+						lcdPrintSetting(currentConfig.getPullDur(), 1);
+					}
+					else if (btn == BUTTON_DOWN_PRESSED || btn == BUTTON_DOWN_LONG_PRESSED)
+					{
+						Serial.print(F("  new val: "));
+						Serial.println(currentConfig.stepDnPullDur());
+						lcdPrintSetting(currentConfig.getPullDur(), 1);
+					}
+					else
+					{
+						configChanged = false;
+					}
+					
 					break;
+					
 				case mnuCmdprg_pull_start :
-					outputMessageAction(F(">>> Start Pull Prg"));
+					if (process_menu_cmd_justCalled)
+					{
+						outputMessageAction(F(">>> Start Pull Prg"));
+					}
+					
 					break;
 				case mnuCmdsettings_idk :
 					break;
@@ -404,9 +619,23 @@ TODO:
 				default:
 					break;
 			  }
+			  
+			if (configChanged && cmdId != mnuCmdsettings_resetToDefaults)
+			{
+// 				lcd.setCursor(2, 1);
+// 				lcd.print(rpad(strbuf, currentConfig.getSettingStr(cmdId))); // Display config value.
+			}
+			if (complete)
+			{
+				currentConfig.save();
+ 			}
+			  
+			  process_menu_cmd_justCalled = false;
 
 			  return complete;
 			}
+			
+			
 		//----------------------------------------------------------------------//
 
 
