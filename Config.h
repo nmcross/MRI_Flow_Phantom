@@ -37,9 +37,7 @@ class Config
 {
   public:
     char appNameAndVersion[sizeof(NameAndVersion)];
-  
-
-
+	char *getSettingStr(byte cmdId);
 
 	Config(void);
 	
@@ -67,7 +65,8 @@ class Config
 	long stepDnPullDur(void);
 	long getPullDur(void);
 	
-	char *getSettingStr(byte cmdId);
+	bool isMotionActive(void);
+
 
     
     //char *getFormattedStr(byte cmdId);  // Returns formatted config value associated with menu command id.
@@ -77,12 +76,16 @@ class Config
     void setDefaults(void);                 // Sets config to default values.
     void copyTo(Config *dest);				// Copies current instance to destination instance.
 	
+	void debugPrintState(void);
+	
   private:
 	void stepUpVol(long *vol);		//mL
 	void stepDnVol(long *vol);		//mL
 	
 	void stepUpDur(long *dur);		//s
 	void stepDnDur(long *dur);		//s
+	
+	bool activeMotion;
 
 	byte		displayBrightness;   // 1=25%, 2=50%, 3=75%, 4=100%
 	

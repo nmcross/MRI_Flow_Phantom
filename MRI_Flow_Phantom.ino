@@ -18,7 +18,7 @@ TODO:
 - need to finish code for starting and stopping functions
 - need to dev code for displaying settings on screen
 - Change to push on push off button control
-- 
+- ensure push is first action in oscillation to prevent wet mess
 **************************************************************************************/
 
 
@@ -128,7 +128,7 @@ TODO:
 // ============================================================================= //
 
 
-
+bool temp = false;
 
 
 // ============================================================================= //
@@ -261,7 +261,14 @@ TODO:
 							strbuf[0] = 0b01111110; // forward arrow representing input prompt.
 							strbuf[1] = 0;
 							lcd.print(strbuf);
-						}
+							if (Menu1.getCurrentItemIndex()==2)
+							{
+								lcd.setCursor(2,1);
+								lcd.print(F("          "));
+								lcd.setCursor(2,1);
+								lcd.print(F("ACTIVE!!!"));
+							}
+						} 
 					}
 					break;
 				}
@@ -409,6 +416,11 @@ TODO:
 				}
 				
 			}
+			
+			void lcdPrintBlankSetting(void) {
+				lcd.setCursor(2,1);
+				lcd.print(F("            "));
+			}
 
 		//----------------------------------------------------------------------//
 		// Addition or removal of menu items in MenuData.h will require this method
@@ -429,8 +441,13 @@ TODO:
 			  {
 				// TODO Process menu commands here:
 				case mnuCmdprg_oscillating_vol :
+				{
+					
+					
 					if (process_menu_cmd_justCalled)
 					{
+						currentConfig.debugPrintState();
+						
 						outputMessageAction(F("Change Oscillating Prg Vol"));
 						lcdPrintSetting(currentConfig.getOscVol(), 0);
 					}
@@ -441,56 +458,83 @@ TODO:
 						Serial.print(F("  new val: "));
 						Serial.println(currentConfig.stepUpOscVol());
 						lcdPrintSetting(currentConfig.getOscVol(), 0);
+						
+						currentConfig.debugPrintState();
 					}
 					else if (btn == BUTTON_DOWN_PRESSED || btn == BUTTON_DOWN_LONG_PRESSED)
 					{
 						Serial.print(F("  new val: "));
 						Serial.println(currentConfig.stepDnOscVol());
 						lcdPrintSetting(currentConfig.getOscVol(), 0);
+						
+						currentConfig.debugPrintState();
 					}
 					else
 					{
 						configChanged = false;
 					}
 					break;;
+				}
 					
 				case mnuCmdprg_oscillating_dur :
+				{
+					
+					
 					if (process_menu_cmd_justCalled)
 					{
+						currentConfig.debugPrintState();
+						
 						outputMessageAction(F("Change Oscillating Prg Duration"));
 						lcdPrintSetting(currentConfig.getOscDur(), 1);
 					}
 
 					configChanged = true;
-					if (btn == BUTTON_UP_PRESSED || btn == BUTTON_UP_LONG_PRESSED)
-					{
+					if (btn == BUTTON_UP_PRESSED || btn == BUTTON_UP_LONG_PRESSED) {
 						Serial.print(F("  new val: "));
 						Serial.println(currentConfig.stepUpOscDur());
 						lcdPrintSetting(currentConfig.getOscDur(), 1);
-					}
-					else if (btn == BUTTON_DOWN_PRESSED || btn == BUTTON_DOWN_LONG_PRESSED)
-					{
+						
+						currentConfig.debugPrintState();
+					} else if (btn == BUTTON_DOWN_PRESSED || btn == BUTTON_DOWN_LONG_PRESSED) {
 						Serial.print(F("  new val: "));
 						Serial.println(currentConfig.stepDnOscDur());
 						lcdPrintSetting(currentConfig.getOscDur(), 1);
-					}
-					else
-					{
+						
+						currentConfig.debugPrintState();
+					} else {
 						configChanged = false;
 					}
 					
 					break;
+				}
 					
 				case mnuCmdprg_oscillating_start :
-					if (process_menu_cmd_justCalled)
+				{
+					if (btn == BUTTON_SELECT_PRESSED)
 					{
+						Serial.println("BUTTON");
+					}
+					
+					if (process_menu_cmd_justCalled )
+					{
+						currentConfig.debugPrintState();
+						
 						outputMessageAction(F(">>> Start Oscillating Prg!"));
 						
+						//lcd.setCursor(2,1);
+						//lcd.print(F("          "));
+						//lcd.setCursor(2,1);
+						//lcd.print(F("ACTIVE!!!"));
+					} else {
+						//lcdPrintBlankSetting();
+						//Serial.println("blank");
 					}
 					
 					break;
+				}
 					
 				case mnuCmdprg_push_vol :
+				
 					if (process_menu_cmd_justCalled)
 					{
 						outputMessageAction(F("Change Push Prg Vol"));
@@ -545,6 +589,7 @@ TODO:
 					break;
 					
 				case mnuCmdprg_push_start :
+					currentConfig.debugPrintState();
 					if (process_menu_cmd_justCalled)
 					{
 						outputMessageAction(F(">>> Start Push Prg"));
@@ -666,7 +711,8 @@ TODO:
 			/*
 			  if (refreshMode == REFRESH_DESCEND || refreshMode == REFRESH_ASCEND)
 			  {
-				byte menuCount = Menu1.getMenuItemCount();
+				byte menuCount = Menu1.get
+				Count();
     
 				// uncomment below code to output menus to serial monitor
 				if (Menu1.currentMenuHasParent())
@@ -694,6 +740,8 @@ TODO:
 				}
 			  }
 			*/
+			
+
 
 			  lcd.setCursor(0, 0);
 			  if (Menu1.currentItemHasChildren())
@@ -708,6 +756,27 @@ TODO:
 			  {
 				byte cmdId;
 				rpad(strbuf, Menu1.getCurrentItemName(nameBuf));
+				
+				
+				// Print Settings below setting change functions
+				if (strstr(Menu1.getCurrentItemName(nameBuf),"1.1.1")) {
+					lcdPrintSetting(currentConfig.getOscVol(), 0);
+				} else if (strstr(Menu1.getCurrentItemName(nameBuf),"1.1.2")) {
+					lcdPrintSetting(currentConfig.getOscDur(), 1);
+				} else if (strstr(Menu1.getCurrentItemName(nameBuf),"1.2.1")) {	
+					lcdPrintSetting(currentConfig.getPushVol(), 0);
+				} else if (strstr(Menu1.getCurrentItemName(nameBuf),"1.2.2")) {
+					lcdPrintSetting(currentConfig.getPushDur(), 1);
+				} else if (strstr(Menu1.getCurrentItemName(nameBuf),"1.3.1")) {
+					lcdPrintSetting(currentConfig.getPullVol(), 0);
+				} else if (strstr(Menu1.getCurrentItemName(nameBuf),"1.3.2")) {
+					lcdPrintSetting(currentConfig.getPullDur(), 1);
+				} else {
+					lcdPrintBlankSetting();
+				}
+				// Reset cursor position before continuing
+				lcd.setCursor(0, 0);
+						
     
 				if ((cmdId = Menu1.getCurrentItemCmdId()) == 0)
 				{
@@ -721,8 +790,6 @@ TODO:
 				  lcd.print(strbuf);
 				  lcd.setCursor(0, 1);
 				  lcd.print(" ");
-      
-				  // TODO Display config value.
 				}
 			  }
 			}

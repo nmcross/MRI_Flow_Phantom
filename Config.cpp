@@ -120,6 +120,10 @@ long Config::getPullDur(void) {
 // --------------------------------- //
 
 
+bool Config::isMotionActive() {
+	return activeMotion;
+}
+
 
 char *Config::getSettingStr(byte cmdId) {
 	switch (cmdId) {
@@ -259,6 +263,8 @@ void Config::setDefaults(void)
   prg_pull_status = prg_pull_status_default;
   
   displayBrightness = displayBrightness_default;
+  
+  activeMotion = false;
 
 }
 
@@ -269,3 +275,47 @@ void Config::copyTo(Config *dest)
   memcpy(dest, this, sizeof(Config));
 }
 
+
+//------------------------------------------------------------------------------
+void Config::debugPrintState(void)
+{
+	Serial.println("-----------------------------");
+	
+	// Oscillating
+	Serial.print("Osc:  ");
+	if (prg_osc_status) {
+		Serial.print("[ON]  ");
+	} else {
+		Serial.print("[OFF] ");
+	}
+	Serial.print(prg_osc_volume);
+	Serial.print("mL, for ");
+	Serial.print(prg_osc_phaseDuration);
+	Serial.println("s");
+	
+	// Push
+	Serial.print("Push: ");
+	if (prg_push_status) {
+		Serial.print("[ON]  ");
+		} else {
+		Serial.print("[OFF] ");
+	}
+	Serial.print(prg_push_volume);
+	Serial.print("mL, for ");
+	Serial.print(prg_push_duration);
+	Serial.println("s");
+	
+	// Pull
+	Serial.print("Pull: ");
+	if (prg_pull_status) {
+		Serial.print("[ON]  ");
+		} else {
+		Serial.print("[OFF] ");
+	}
+	Serial.print(prg_pull_volume);
+	Serial.print("mL, for ");
+	Serial.print(prg_pull_duration);
+	Serial.println("s");
+	
+	Serial.println("-----------------------------");
+}
