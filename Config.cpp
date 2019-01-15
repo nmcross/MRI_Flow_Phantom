@@ -2,235 +2,387 @@
 #include "LcdKeypad.h"
 #include "MenuData.h"
 #include <avr/eeprom.h>
+#include <AccelStepper.h>
 
 const char NotImp[] = "Not Implemented";
 static char strbuf[LCD_COLS+1];
 
 Config::Config(void) {
 	setDefaults();
+	
+	// ----------------------- //
+	// ----- Motor Setup ----- //
+			
+	// Configure motor pins as outputs
+	pinMode(drv_step,	OUTPUT);
+	pinMode(drv_dir,	OUTPUT);
+	pinMode(drv_ms1,	OUTPUT);
+	pinMode(drv_ms2,	OUTPUT);
+	pinMode(drv_enable, OUTPUT);
+			
+	// Set microstepping configuration described above
+	digitalWrite(drv_ms1, drv_ms1_set);
+	digitalWrite(drv_ms2, drv_ms2_set);
+			
+	
+			
+	stepper = new AccelStepper(AccelStepper::DRIVER, drv_step, drv_dir);
+	
+	stepper->setMaxSpeed(stepper_default_speed);
+	stepper->setAcceleration(stepper_default_acc);
+	// ----------------------- //
+	
 }
   
 
-
-void Config::stepUpVol(long *vol) {
+void Config::stepUpVol(float *vol) {
 	*vol += VOLUME_INCREMENT;
 	*vol = constrain(*vol, VOLUME_MIN, VOLUME_MAX);
 }
-void Config::stepDnVol(long *vol) {
+void Config::stepDnVol(float *vol) {
 	*vol -= VOLUME_INCREMENT;
 	*vol = constrain(*vol, VOLUME_MIN, VOLUME_MAX);
 }
-void Config::stepUpDur(long *dur) {
+void Config::stepUpDur(unsigned long *dur) {
 	*dur += DURATION_INCREMENT;
 	*dur = constrain(*dur, DURATION_MIN, DURATION_MAX);
 }
-void Config::stepDnDur(long *dur) {
+void Config::stepDnDur(unsigned long *dur) {
 	*dur -= DURATION_INCREMENT;
 	*dur = constrain(*dur, DURATION_MIN, DURATION_MAX);
 }
   
 
 // ----- Oscillating: Volume ----- //
-long Config::stepUpOscVol(void) {
+float Config::stepUpOscVol(void) {
 	stepUpVol(&prg_osc_volume);
 	return prg_osc_volume;
 }
-long Config::stepDnOscVol(void) {
+float Config::stepDnOscVol(void) {
 	stepDnVol(&prg_osc_volume);
 	return prg_osc_volume;
 }
-long Config::getOscVol(void) {
+float Config::getOscVol(void) {
 	return prg_osc_volume;
 }
 // --------------------------------- //
 
-
 // ----- Oscillating: Duration ----- //
-long Config::stepUpOscDur(void) {
+unsigned long Config::stepUpOscDur(void) {
 	stepUpDur(&prg_osc_phaseDuration);
 	return prg_osc_phaseDuration;
 }
-long Config::stepDnOscDur(void) {
+unsigned long Config::stepDnOscDur(void) {
 	stepDnDur(&prg_osc_phaseDuration);
 	return prg_osc_phaseDuration;
 }
-long Config::getOscDur(void) {
+unsigned long Config::getOscDur(void) {
 	return prg_osc_phaseDuration;
 }
 // --------------------------------- //
 
-
-// ----- Push: Volume ----- //
-long Config::stepUpPushVol(void) {
-	stepUpVol(&prg_push_volume);
-	return prg_push_volume;
+// ----- Oscillating: Actions ----- //
+void Config::startOsc(void) {
+	prg_osc_status = true;
+	activeMotion = true;
+	prg_osc_isPushing = true;  // always start with pushing
+	
+	enable_stepper();
 }
-long Config::stepDnPushVol(void) {
-	stepDnVol(&prg_push_volume);
-	return prg_push_volume;
+void Config::stopOsc(void) {
+	prg_osc_status = false;
+	activeMotion = false;
+	
+	disable_stepper();
 }
-long Config::getPushVol(void) {
-	return prg_push_volume;
+void Config::continueOsc(void) {
+	// doublecheck motion is meant to be active
+	if (activeMotion) {
+		
+		if (prg_osc_isPushing) {
+			// PUSHING
+			
+			inject_cc(prg_osc_volume, prg_osc_phaseDuration);
+			prg_osc_isPushing = false;
+		} else {
+			// PULLING
+			retract_cc(prg_osc_volume, prg_osc_phaseDuration);
+			prg_osc_isPushing = true;
+		}
+		
+		
+	} else {
+		msgERR(F("continueOsc when activeMotion false"));
+		stopOsc();
+		
+	}
 }
 // --------------------------------- //
 
 
+
+// ----- Push: Volume ----- //
+float Config::stepUpPushVol(void) {
+	stepUpVol(&prg_push_volume);
+	return prg_push_volume;
+}
+float Config::stepDnPushVol(void) {
+	stepDnVol(&prg_push_volume);
+	return prg_push_volume;
+}
+float Config::getPushVol(void) {
+	return prg_push_volume;
+}
+// --------------------------------- //
+
 // ----- Push: Duration ----- //
-long Config::stepUpPushDur(void) {
+unsigned long Config::stepUpPushDur(void) {
 	stepUpDur(&prg_push_duration);
 	return prg_push_duration;
 }
-long Config::stepDnPushDur(void) {
+unsigned long Config::stepDnPushDur(void) {
 	stepDnDur(&prg_push_duration);
 	return prg_push_duration;
 }
-long Config::getPushDur(void) {
+unsigned long Config::getPushDur(void) {
 	return prg_push_duration;
+}
+// --------------------------------- //
+
+// ----- Push: Actions ----- //
+void Config::startPush(void) {
+	prg_push_status = true;
+	activeMotion = true;
+	
+	if (activeMotion)
+	{
+		enable_stepper();
+		inject_cc(prg_push_volume, prg_push_duration);
+		disable_stepper();
+	}
+	
+	stopPush();
+}
+void Config::stopPush(void) {
+	prg_push_status = false;
+	activeMotion = false;
+	
+	disable_stepper();
 }
 // --------------------------------- //
 
 
 // ----- Pull: Volume ----- //
-long Config::stepUpPullVol(void) {
+float Config::stepUpPullVol(void) {
 	stepUpVol(&prg_pull_volume);
 	return prg_pull_volume;
 }
-long Config::stepDnPullVol(void) {
+float Config::stepDnPullVol(void) {
 	stepDnVol(&prg_pull_volume);
 	return prg_pull_volume;
 }
-long Config::getPullVol(void) {
+float Config::getPullVol(void) {
 	return prg_pull_volume;
 }
 // --------------------------------- //
 
-
 // ----- Pull: Duration ----- //
-long Config::stepUpPullDur(void) {
+unsigned long Config::stepUpPullDur(void) {
 	stepUpDur(&prg_pull_duration);
 	return prg_pull_duration;
 }
-long Config::stepDnPullDur(void) {
+unsigned long Config::stepDnPullDur(void) {
 	stepDnDur(&prg_pull_duration);
 	return prg_pull_duration;
 }
-long Config::getPullDur(void) {
+unsigned long Config::getPullDur(void) {
 	return prg_pull_duration;
 }
 // --------------------------------- //
 
+// ----- Pull: Actions ----- //
+void Config::startPull(void) {
+	prg_pull_status = true;
+	activeMotion = true;
 
-bool Config::isMotionActive() {
-	return activeMotion;
+	if (activeMotion)
+	{
+		enable_stepper();
+		retract_cc(prg_pull_volume, prg_pull_duration);
+		disable_stepper();
+	}
+	
+	stopPush();
+}
+void Config::stopPull(void) {
+	prg_pull_status = false;
+	activeMotion = false;
+	
+	disable_stepper();
+}
+// --------------------------------- //
+
+
+// ----------------------------------- //
+// ----- Motor Control Functions ----- //
+// ----------------------------------- //
+void Config::enable_stepper() {
+	digitalWrite(drv_enable, LOW);
 }
 
+void Config::disable_stepper() {
+	digitalWrite(drv_enable, HIGH);
+}
+
+bool Config::isVolTooLarge (float vol_cc) {
+	if (vol_cc > SYRINGE_MAX_VOL_CC) {
+		Serial.print(F("ERROR - Injectable Volume is too Large ("));
+		Serial.print(vol_cc);
+		Serial.print(">");
+		Serial.print(SYRINGE_MAX_VOL_CC);
+		Serial.println(")");
+		return true;
+		} else {
+		return false;
+	}
+}
+
+void Config::inject_cc(float vol_cc, unsigned long duration) {
+	if (!isVolTooLarge(vol_cc)) {
+		stepper->setMaxSpeed(calcStepperSpeed(vol_cc, duration));
+		
+		// zero out current position
+		stepper->setCurrentPosition(0);
+		
+		// Output action to Serial Monitor
+		String temp = F(" - Injecting (mL): ");
+		msgAction(temp + vol_cc);
+		
+		// move to new position represent specified volume
+		float ccPerStep = CALC_CC_PER_STEP;
+		enable_stepper();
+		motionUnit_time_last = micros();
+		stepper->runToNewPosition(round(vol_cc / ccPerStep));
+		disable_stepper();
+		
+		// determine elapsed time and output
+		msgLapse(motionUnit_time_last, prg_osc_phaseDuration);
+	}
+}
+
+void Config::retract_cc(float vol_cc, unsigned long duration) {
+	if (!isVolTooLarge(vol_cc)) {
+		stepper->setMaxSpeed(calcStepperSpeed(vol_cc, duration));
+		
+		// zero out current position
+		stepper->setCurrentPosition(0);
+		
+		// Output action to Serial Monitor
+		String temp = F(" - Retracting (mL): ");
+		msgAction(temp + vol_cc);
+		
+		// move to new position represent specified volume
+		float ccPerStep = CALC_CC_PER_STEP;
+		enable_stepper();
+		motionUnit_time_last = micros();
+		stepper->runToNewPosition( -round(vol_cc / ccPerStep));
+		disable_stepper();
+		
+		// determine elapsed time and output
+		msgLapse(motionUnit_time_last, prg_osc_phaseDuration);
+	}
+}
+
+float Config::calcStepperSpeed(unsigned long volume, unsigned long duration) {
+	// Calculate speed to pass to AccelStepper based on duration of injection
+	// Empirically measured time that it takes to execute motion which is a little longer than the setting
+	// measured: 31.11, 31.13, 31.12, 31.13, 31.12, 31.13, 31.12, 31.14, 31.12 [setting: 30s]
+	
+	float j = 360.0;
+	j /= CALC_DEG_PER_STEP;		// gives the steps needed per revolution
+	j *= CALC_ROD_THREADING;	// finds steps per cm movement of syringe
+	j *= CALC_CM_PER_CC;		// converts to steps per volume in CC injected
+	j *= volume;				// determines steps needed for a given volume 
+	j /= duration;				// finds the number of steps per sec to achieve injected rate
+	return j;	// returns rate in steps/sec
+	//return (360.0/CALC_DEG_PER_STEP) * CALC_ROD_THREADING * CALC_CM_PER_CC * volume / duration;
+}
+
+void Config::msgERR(String messageText) {
+	Serial.print(F(">ERROR: "));
+	Serial.println(messageText);
+}
+
+void Config::msgAction(String messageText) {
+	Serial.print(F("> "));
+	Serial.println(messageText);
+}
+
+void Config::msgLapse(unsigned long last_micros, unsigned long setting) {
+	Serial.print(F(" - - elapsed: "));
+	Serial.print((micros() - last_micros)/1000000.0);
+	Serial.print(F("s "));
+	Serial.print(F(" [setting: "));
+	Serial.print(setting);
+	Serial.println(F("s]"));
+}
+
+bool Config::isMotionActive(void) {
+	return activeMotion;
+}
 
 char *Config::getSettingStr(byte cmdId) {
 	switch (cmdId) {
 		case mnuCmdprg_oscillating_vol:
-			{
-				//char strSize[VOLUME_DIGITS];
-				//strbuf = *itoa(prg_osc_volume, strSize, 10);
-				inttostr(strbuf, prg_osc_volume);
-				break;
-			}
+		{
+			//char strSize[VOLUME_DIGITS];
+			//strbuf = *itoa(prg_osc_volume, strSize, 10);
+			inttostr(strbuf, prg_osc_volume);
+			break;
+		}
 		case mnuCmdprg_oscillating_dur:
-			{
-				inttostr(strbuf, prg_osc_phaseDuration);
-				break;
-			}
+		{
+			inttostr(strbuf, prg_osc_phaseDuration);
+			break;
+		}
 		case mnuCmdprg_push_vol:
-			{
-				inttostr(strbuf, prg_push_volume);
-				break;
-			}
+		{
+			inttostr(strbuf, prg_push_volume);
+			break;
+		}
 		case mnuCmdprg_push_dur:
-			{
-				inttostr(strbuf, prg_push_duration);
-				break;
-			}
+		{
+			inttostr(strbuf, prg_push_duration);
+			break;
+		}
 		case mnuCmdprg_pull_vol:
-			{
-				inttostr(strbuf, prg_pull_volume);
-				break;
-			}
+		{
+			inttostr(strbuf, prg_pull_volume);
+			break;
+		}
 		case mnuCmdprg_pull_dur:
-			{
-				inttostr(strbuf, prg_pull_duration);
-				break;
-			}
+		{
+			inttostr(strbuf, prg_pull_duration);
+			break;
+		}
 		case mnuCmdsettings_resetToDefaults:
-			{
-				break;
-			}
-		default: 
-			{
-				strcpy(strbuf, NotImp);
-				break;
-			}
+		{
+			break;
+		}
+		default:
+		{
+			strcpy(strbuf, NotImp);
+			break;
+		}
 	}
 	return strbuf;
 }
-
-//------------------------------------------------------------------------------
-//char *Config::getFormattedStr(byte cmdId)
-//{
-  //char intbuf[8];
-  //
-  //// switch (cmdId)
-  //// {
-  ////   case mnuCmdT1Hours :
-  ////   case mnuCmdT1Mins :
-  ////   case mnuCmdT1Secs :
-  ////     toTimeStr(strbuf, timer1ReloadValue);
-  ////     break;
-  ////   case mnuCmdT2Hours :
-  ////   case mnuCmdT2Mins :
-  ////   case mnuCmdT2Secs :
-  ////     toTimeStr(strbuf, timer2ReloadValue);
-  ////     break;
-  ////   case mnuCmdT3Hours :
-  ////   case mnuCmdT3Mins :
-  ////   case mnuCmdT3Secs :
-  ////     toTimeStr(strbuf, timer3ReloadValue);
-  ////     break;
-  ////   case mnuCmdResetToDefaults:
-  ////     strbuf[0] = 0;
-  ////     break;
-  ////   case mnuCmdAlarmDuration:
-  ////     fmt(strbuf, 2, inttostr(intbuf, alarmDuration), " seconds");
-  ////     break;
-  ////   case mnuCmdButtonBeep :
-  ////     if (buttonBeep)
-  ////     {
-  ////       fmt(strbuf, 1, "on");
-  ////     }
-  ////     else
-  ////     {
-  ////       fmt(strbuf, 1, "off");
-  ////     }
-  ////     break;
-  ////   case mnuCmdDisplayBrightness :
-  ////   {
-  ////     byte brightnessPC = ((unsigned short) displayBrightness * 100) / 4;
-  ////     inttostr(intbuf, brightnessPC);
-  ////     fmt(strbuf, 2, intbuf, "%");
-  ////     break;
-  ////   }
-  ////   default:
-  ////     strcpy(strbuf, NotImp);
-  ////     break;
-  //// }
-   //return strbuf;
-//}
-
 
 //------------------------------------------------------------------------------
 void Config::save(void)
 {
   eeprom_write_block(this, (void *)0, sizeof (Config));
 }
-
 
 //------------------------------------------------------------------------------
 void Config::load(void)
@@ -244,7 +396,6 @@ void Config::load(void)
   }
 }
 
-
 //------------------------------------------------------------------------------
 void Config::setDefaults(void)
 {
@@ -252,7 +403,7 @@ void Config::setDefaults(void)
 
   prg_osc_phaseDuration = prg_osc_phaseDuration_default;
   prg_osc_volume = prg_osc_volume_default;
-  prg_osc_status = prg_osc_status_default;
+  prg_osc_isPushing = prg_osc_isPushing_default;
 
   prg_push_duration = prg_push_duration_default;
   prg_push_volume = prg_push_volume_default;
@@ -265,16 +416,15 @@ void Config::setDefaults(void)
   displayBrightness = displayBrightness_default;
   
   activeMotion = false;
-
+  
+  motionUnit_time_last = 0;
 }
-
 
 //------------------------------------------------------------------------------
 void Config::copyTo(Config *dest)
 {
   memcpy(dest, this, sizeof(Config));
 }
-
 
 //------------------------------------------------------------------------------
 void Config::debugPrintState(void)

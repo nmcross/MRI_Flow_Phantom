@@ -81,50 +81,11 @@ TODO:
 
 
 
-	// ------------------------------------ //
-	// ----- EasyDriver Configuration ----- //
-		// EasyDriver Pin Configuration (digital pins)
-		#define drv_step	A1
-		#define drv_dir		A2
-		#define drv_ms1		A3
-		#define drv_ms2		A4
-		#define drv_enable	A5
-
-		AccelStepper stepper(AccelStepper::DRIVER, drv_step, drv_dir); 
-
-		// Define Microstepping
-		//MS1	MS2	Microstep Resolution
-		//L		L	Full Step (2 Phase)
-		//H		L	Half Step
-		//L		H	Quarter Step
-		//H		H	Eigth Step
-		#define drv_ms1_set		HIGH
-		#define drv_ms2_set		HIGH
-	// ------------------------------------ //
+	
 
 
 
-	// -------------------------------------------- //
-	// ----- Movement Calculations & Settings ----- //
-		#define stepper_default_speed 1000
-		#define stepper_default_acc   5000
-
-
-		// Threaded rod is probably 20tpi = 7.874015 thread/cm
-		// motor: 1.8deg/step
-		// configuration: Eighth of a step
-		// 1 step = 1.8/8 = 0.225deg
-		// 1600 steps per rev
-		// 1600 * 7.874015 = 12,598.425 steps per cm
-		#define CALC_ROD_THREADING		7.874015			// threads/cm
-		#define CALC_DEG_PER_STEP		0.225				// deg/step
-		#define CALC_STEPS_PER_CM		( (360.0/CALC_DEG_PER_STEP) * CALC_ROD_THREADING )
-		#define CALC_CM_PER_CC			( 9.0 / 50 )			// 90mm/50cc
-		#define CALC_CC_PER_STEP		( 1.0 / (CALC_STEPS_PER_CM * CALC_CM_PER_CC) )
-				
-		#define SYRINGE_MAX_VOL_CC		8.0 / CALC_CM_PER_CC	// cc, actual total movable length is 107mm
-	// -------------------------------------------- //
-
+	
 // ============================================================================= //
 
 
@@ -153,27 +114,6 @@ bool temp = false;
 			
 		// ------------------------------ //
 			
-	
-		// ----------------------- //
-		// ----- Motor Setup ----- //
-		
-			// Configure motor pins as outputs
-			pinMode(drv_step,	OUTPUT);
-			pinMode(drv_dir,	OUTPUT);
-			pinMode(drv_ms1,	OUTPUT);
-			pinMode(drv_ms2,	OUTPUT);
-			pinMode(drv_enable, OUTPUT);
-	
-			disable_stepper();
-	
-			// Set microstepping configuration described above
-			digitalWrite(drv_ms1, drv_ms1_set);
-			digitalWrite(drv_ms2, drv_ms2_set);
-	
-			stepper.setMaxSpeed(stepper_default_speed);
-			stepper.setAcceleration(stepper_default_acc);
-			
-		// ----------------------- //
 		
 		
 		// -------------------------- //
@@ -313,72 +253,7 @@ bool temp = false;
 // ============================================================================= //
 // ===== FUNCTIONS ============================================================= //
 
-	// ----------------------------------- //
-	// ----- Motor Control Functions ----- //
-	// ----------------------------------- //
-		void enable_stepper() {
-			digitalWrite(drv_enable, LOW);
-		}
-
-		void disable_stepper() {
-			digitalWrite(drv_enable, HIGH);
-		}
-		
-		bool isVolTooLarge (float vol_cc) {
-			if (vol_cc > SYRINGE_MAX_VOL_CC) {
-				Serial.print(F("!!!ERR!!! - Injectable Volume is too Large ("));
-				Serial.print(vol_cc);
-				Serial.print(">");
-				Serial.print(SYRINGE_MAX_VOL_CC);
-				Serial.println(")");
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		void inject_cc(AccelStepper stepper, float vol_cc, long speed = stepper_default_speed) {
-			if (!isVolTooLarge(vol_cc)) {
-				stepper.setMaxSpeed(speed);
 	
-				// zero out current position
-				stepper.setCurrentPosition(0);
-	
-				// Output action to Serial Monitor
-				Serial.print(F(" - Injecting (mL): "));
-				Serial.println(vol_cc);
-	
-				// move to new position represent specified volume
-				float ccPerStep = CALC_CC_PER_STEP;
-				enable_stepper();
-				stepper.runToNewPosition(round(vol_cc / ccPerStep));
-	
-				disable_stepper();
-			}
-		}
-
-		void retract_cc(AccelStepper stepper, float vol_cc, long speed = stepper_default_speed) {
-			if (!isVolTooLarge(vol_cc)) {
-				stepper.setMaxSpeed(speed);
-	
-				// zero out current position
-				stepper.setCurrentPosition(0);
-	
-				// Output action to Serial Monitor
-				Serial.print(F(" - Retracting (mL): "));
-				Serial.println(vol_cc);
-	
-				// move to new position represent specified volume
-				float ccPerStep = CALC_CC_PER_STEP;
-				enable_stepper();
-				stepper.runToNewPosition( -round(vol_cc / ccPerStep));
-	
-				disable_stepper();
-			}
-		}
-		
-	// ----------------------------------- //
-	// ----------------------------------- //
 	
 	
 
@@ -430,20 +305,18 @@ bool temp = false;
 			  byte complete = false;  // set to true when menu command processing complete.
 			  byte configChanged = false;
 
+			  // when button pushed again, close out menu command, and mark action complete
 			  if (btn == BUTTON_SELECT_PRESSED)
 			  {
 				complete = true;
 			  }
 			  
 			  
-
 			  switch (cmdId)
 			  {
 				// TODO Process menu commands here:
 				case mnuCmdprg_oscillating_vol :
 				{
-					
-					
 					if (process_menu_cmd_justCalled)
 					{
 						currentConfig.debugPrintState();
@@ -478,8 +351,6 @@ bool temp = false;
 					
 				case mnuCmdprg_oscillating_dur :
 				{
-					
-					
 					if (process_menu_cmd_justCalled)
 					{
 						currentConfig.debugPrintState();
@@ -510,24 +381,35 @@ bool temp = false;
 					
 				case mnuCmdprg_oscillating_start :
 				{
+					
 					if (btn == BUTTON_SELECT_PRESSED)
 					{
-						Serial.println("BUTTON");
+						// STOP    STOP    STOP
+						// Complete Motor Oscillation Movement
+						outputMessageAction(F(">>> STOP Oscillating Prg!"));
+						currentConfig.stopOsc();
+						
+						// end processing of this menu action
+						complete = true;
 					}
-					
-					if (process_menu_cmd_justCalled )
+					else if (process_menu_cmd_justCalled)
 					{
-						currentConfig.debugPrintState();
+						// START   START   START
+						// Start Motor Oscillation Movement
+						outputMessageAction(F(">>> START Oscillating Prg!"));
 						
-						outputMessageAction(F(">>> Start Oscillating Prg!"));
+						// Indicate status on LCD
+							lcd.setCursor(2,1);
+							lcd.print(F("          "));
+							lcd.setCursor(2,1);
+							lcd.print(F("ACTIVE!!!"));
+							
+						// begin oscillation
+						currentConfig.startOsc();
 						
-						//lcd.setCursor(2,1);
-						//lcd.print(F("          "));
-						//lcd.setCursor(2,1);
-						//lcd.print(F("ACTIVE!!!"));
 					} else {
-						//lcdPrintBlankSetting();
-						//Serial.println("blank");
+						// Perform motion segment for this itteration
+						currentConfig.continueOsc();
 					}
 					
 					break;
@@ -665,18 +547,20 @@ bool temp = false;
 					break;
 			  }
 			  
+			// check if above code changed configurations
 			if (configChanged && cmdId != mnuCmdsettings_resetToDefaults)
 			{
 // 				lcd.setCursor(2, 1);
 // 				lcd.print(rpad(strbuf, currentConfig.getSettingStr(cmdId))); // Display config value.
 			}
+			
+			// save configurations out
 			if (complete)
 			{
 				currentConfig.save();
  			}
 			  
 			  process_menu_cmd_justCalled = false;
-
 			  return complete;
 			}
 			
